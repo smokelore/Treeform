@@ -58,7 +58,7 @@ public class FractalNode : MonoBehaviour
 				component.parent = parentNode;
 				go.transform.parent = parentNode.transform;
 				go.transform.localScale = Vector3.one * parentNode.childScale[nodeIndex];
-				go.transform.localPosition = new Vector3(parentNode.childOffset[nodeIndex].x * go.transform.localScale.x, parentNode.childOffset[nodeIndex].y * go.transform.localScale.y, parentNode.childOffset[nodeIndex].z * go.transform.localScale.z);
+				go.transform.localPosition = parentNode.childOffset[nodeIndex];//new Vector3(parentNode.childOffset[nodeIndex].x * go.transform.localScale.x, parentNode.childOffset[nodeIndex].y * go.transform.localScale.y, parentNode.childOffset[nodeIndex].z * go.transform.localScale.z);
 				component.depth = parentNode.depth + 1;
 				component.index = parentNode.children.Count + 1;
 
@@ -144,8 +144,34 @@ public class FractalNode : MonoBehaviour
 		}
 	}
 
+	public IEnumerator UpdateChildPositions()
+	{
+		yield return new WaitForEndOfFrame();
+
+		for (int i = 0; i < children.Count; i++)
+		{
+			FractalNode child = children[i];
+			child.transform.localPosition = childOffset[i];
+			child.childOffset = childOffset;
+
+			StartCoroutine(child.UpdateChildPositions());
+		}
+	}
+
 	void Update()
 	{
 		DebugDrawBranches();
+
+		if (children != null && children.Count >= childCount)
+		{
+			if (lastPosition != this.transform.localPosition && parent != null)
+			{
+				parent.childOffset[index-1] = this.transform.localPosition;
+
+				StartCoroutine(parent.UpdateChildPositions());
+
+				lastPosition = this.transform.localPosition;
+			}
+		}
 	}
 }
