@@ -18,6 +18,7 @@ public class FractalManager : Singleton<FractalManager>
 
 	public float childRotationSpeed;
 
+	public bool debugDrawBranches;
 
 	void Start () 
 	{

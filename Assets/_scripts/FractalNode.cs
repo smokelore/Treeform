@@ -112,6 +112,11 @@ public class FractalNode : MonoBehaviour
 
 		//child.gameObject.AddComponent<MeshFilter>().mesh = this.gameObject.GetComponent<MeshFilter>().mesh;
 		//child.gameObject.AddComponent<MeshRenderer>().material = this.gameObject.GetComponent<MeshRenderer>().material;
+		TrailRenderer newTrail = child.gameObject.AddComponent<TrailRenderer>();
+		newTrail.materials = this.GetComponent<TrailRenderer>().materials;
+		newTrail.startWidth = this.GetComponent<TrailRenderer>().startWidth * child.transform.localScale.x/2;
+		newTrail.endWidth = this.GetComponent<TrailRenderer>().endWidth * child.transform.lossyScale.x/2;
+		newTrail.materials[0].color = FractalManager.Instance.GetDepthColor(child);
 
 		return child;
 	}
@@ -172,7 +177,10 @@ public class FractalNode : MonoBehaviour
 
 	void Update()
 	{
-		DebugDrawBranches();
+		if (FractalManager.Instance.debugDrawBranches)
+		{
+			DebugDrawBranches();
+		}
 
 		if (children != null && children.Count >= childCount)
 		{
