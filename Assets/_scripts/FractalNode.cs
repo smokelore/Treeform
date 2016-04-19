@@ -89,7 +89,19 @@ public class FractalNode : MonoBehaviour
 
 	public void InheritParameters()
 	{
-		this.SetParameters(parent.childCount, parent.childOffset, parent.childScale, parent.childSpawnDelay);
+		List<Vector3> erroredOffset = parent.childOffset;
+		for (int i = 0; i < erroredOffset.Count; i++)
+		{
+			Vector3 offset = erroredOffset[i];
+
+			offset.x += Random.Range(-FractalManager.Instance.offsetError, FractalManager.Instance.offsetError);
+			offset.y += Random.Range(-FractalManager.Instance.offsetError, FractalManager.Instance.offsetError);
+			offset.z += Random.Range(-FractalManager.Instance.offsetError, FractalManager.Instance.offsetError);
+
+			erroredOffset[i] = offset;
+		}
+
+		this.SetParameters(parent.childCount, erroredOffset, parent.childScale, parent.childSpawnDelay);
 	}
 		
 	public FractalNode CreateChild()
@@ -118,7 +130,7 @@ public class FractalNode : MonoBehaviour
 
 	public IEnumerator CreateChildren()
 	{
-		yield return new WaitForSeconds(FractalManager.Instance.depthSpawnDelay);
+		yield return new WaitForSeconds(FractalManager.Instance.depthSpawnDelay.RandomSample());
 
 		while (!ParentDepthHasBeenCreated())
 		{
@@ -146,7 +158,7 @@ public class FractalNode : MonoBehaviour
 
 	public IEnumerator UpdateChildPositions()
 	{
-		yield return new WaitForEndOfFrame();
+		yield return new WaitForSeconds(FractalManager.Instance.depthSpawnDelay.RandomSample());
 
 		for (int i = 0; i < children.Count; i++)
 		{
@@ -168,7 +180,7 @@ public class FractalNode : MonoBehaviour
 			{
 				parent.childOffset[index-1] = this.transform.localPosition;
 
-				StartCoroutine(parent.UpdateChildPositions());
+				//StartCoroutine(parent.UpdateChildPositions());
 
 				lastPosition = this.transform.localPosition;
 			}

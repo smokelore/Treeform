@@ -94,3 +94,21 @@ public class FloatRange : Range<float> {
 		return (value - Min) / (Max - Min);
 	}
 }
+
+//[System.Serializable]
+//public class Vector3Range : Range<Vector3> {
+//	public Vector3Range (Vector3 start, Vector3 end) : base(start, end){
+//	}
+//
+//	public Vector3 LinearSample(float t){
+//		Vector3 linear = Min;
+//		System.Type objectType = Start.GetType();
+//		if (objectType == typeof(Vector3)) { 
+//			linear =  Vector3.Lerp(Min, Max, t);
+//		}
+//		else {
+//			throw new System.InvalidOperationException("Non-numeric types cannot be sampled.");
+//		}
+//		return linear;
+//	}
+//}

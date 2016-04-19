@@ -8,10 +8,12 @@ public class FractalManager : Singleton<FractalManager>
 
 	public FractalNode root;
 	public int maxDepth;
-	public float depthSpawnDelay;
+	public FloatRange depthSpawnDelay;
 
 	public Color startColor, endColor;
 	public AnimationCurve debugColorFade;
+	public float offsetError;
+
 
 	void Start () 
 	{
