@@ -12,7 +12,9 @@ public class FractalManager : Singleton<FractalManager>
 
 	public Color startColor, endColor;
 	public AnimationCurve debugColorFade;
-	public float offsetError;
+
+	public float childOffsetError;
+	public AnimationCurve childOffsetErrorCurve;
 
 
 	void Start () 
@@ -33,5 +35,12 @@ public class FractalManager : Singleton<FractalManager>
 		float value = ((float)(node.depth)) / ((float)(maxDepth + 1));
 
 		return Color.Lerp(startColor, endColor, value);
+	}
+
+	public float GetRandomChildOffsetError(FractalNode node)
+	{
+		float rand = Random.Range(0.0f, 1.0f);
+
+		return childOffsetError * childOffsetErrorCurve.Evaluate(rand);
 	}
 }

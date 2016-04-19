@@ -94,9 +94,9 @@ public class FractalNode : MonoBehaviour
 		{
 			Vector3 offset = erroredOffset[i];
 
-			offset.x += Random.Range(-FractalManager.Instance.offsetError, FractalManager.Instance.offsetError);
-			offset.y += Random.Range(-FractalManager.Instance.offsetError, FractalManager.Instance.offsetError);
-			offset.z += Random.Range(-FractalManager.Instance.offsetError, FractalManager.Instance.offsetError);
+			offset.x += FractalManager.Instance.GetRandomChildOffsetError(this);
+			offset.y += FractalManager.Instance.GetRandomChildOffsetError(this);
+			offset.z += FractalManager.Instance.GetRandomChildOffsetError(this);
 
 			erroredOffset[i] = offset;
 		}
