@@ -16,6 +16,8 @@ public class FractalManager : Singleton<FractalManager>
 	public float childOffsetError;
 	public AnimationCurve childOffsetErrorCurve;
 
+	public float childRotationSpeed;
+
 
 	void Start () 
 	{

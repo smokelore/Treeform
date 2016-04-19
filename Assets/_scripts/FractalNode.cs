@@ -185,5 +185,10 @@ public class FractalNode : MonoBehaviour
 				lastPosition = this.transform.localPosition;
 			}
 		}
+
+		if (parent != null)
+		{
+			this.transform.RotateAround(parent.transform.position, (this.transform.position - parent.transform.position).normalized, FractalManager.Instance.childRotationSpeed * Time.deltaTime);
+		}
 	}
 }
