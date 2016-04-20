@@ -17,6 +17,8 @@ public class FractalManager : Singleton<FractalManager>
 	public AnimationCurve childOffsetErrorCurve;
 
 	public float childRotationSpeed;
+	public float childRetractSpeed;
+	public float childRetractAmount;
 
 	public bool debugDrawBranches;
 
