@@ -5,6 +5,7 @@ public class CameraMovement : MonoBehaviour
 {
 	public FractalNode root;
 	public float rotationSpeed;
+	public Vector3 offset;
 
 	void Start () 
 	{
@@ -15,8 +16,8 @@ public class CameraMovement : MonoBehaviour
 	{
 		if (root != null)
 		{
-			this.transform.LookAt(root.transform.position);
-			this.transform.RotateAround(root.transform.position, Vector3.up, rotationSpeed * Time.deltaTime);
+			this.transform.LookAt(root.transform.position + offset);
+			this.transform.RotateAround(root.transform.position + offset, Vector3.up, rotationSpeed * Time.deltaTime);
 		}
 	}
 }

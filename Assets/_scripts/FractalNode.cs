@@ -116,9 +116,11 @@ public class FractalNode : MonoBehaviour
 		//child.gameObject.AddComponent<MeshRenderer>().material = this.gameObject.GetComponent<MeshRenderer>().material;
 		TrailRenderer newTrail = child.gameObject.AddComponent<TrailRenderer>();
 		newTrail.materials = this.GetComponent<TrailRenderer>().materials;
-		newTrail.startWidth = this.GetComponent<TrailRenderer>().startWidth * child.transform.localScale.x/2;
-		newTrail.endWidth = this.GetComponent<TrailRenderer>().endWidth * child.transform.lossyScale.x/2;
+		newTrail.startWidth = this.GetComponent<TrailRenderer>().startWidth;// * child.transform.localScale.x/2;
+		newTrail.endWidth = this.GetComponent<TrailRenderer>().endWidth;// * child.transform.lossyScale.x/2;
 		newTrail.materials[0].color = FractalManager.Instance.GetDepthColor(child);
+
+		MaterialFadeInDistance newFade = child.gameObject.AddComponent<MaterialFadeInDistance>();
 
 		return child;
 	}
@@ -208,6 +210,12 @@ public class FractalNode : MonoBehaviour
 					Debug.Log(offsetFactor);
 				this.transform.localPosition = offsetFactor * parent.childOffset[index - 1];
 			}
+		}
+
+		if (gameObject.GetComponent<TrailRenderer>() != null)
+		{
+			gameObject.GetComponent<TrailRenderer>().startWidth = FractalManager.Instance.trailDefaultStartWidth * transform.lossyScale.x;
+			gameObject.GetComponent<TrailRenderer>().endWidth = FractalManager.Instance.trailDefaultEndWidth * transform.lossyScale.x;
 		}
 	}
 }

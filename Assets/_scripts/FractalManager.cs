@@ -13,12 +13,18 @@ public class FractalManager : Singleton<FractalManager>
 	public Color startColor, endColor;
 	public AnimationCurve debugColorFade;
 
+	public float trailDefaultStartWidth;
+	public float trailDefaultEndWidth;
+
 	public float childOffsetError;
 	public AnimationCurve childOffsetErrorCurve;
 
 	public float childRotationSpeed;
 	public float childRetractSpeed;
 	public float childRetractAmount;
+
+	public AnimationCurve materialFadeCurve;
+	public int materialFadeMaxDist;
 
 	public bool debugDrawBranches;
 
