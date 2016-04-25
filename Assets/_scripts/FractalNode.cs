@@ -118,6 +118,7 @@ public class FractalNode : MonoBehaviour
 		newTrail.materials = this.GetComponent<TrailRenderer>().materials;
 		newTrail.startWidth = 0;// * child.transform.localScale.x/2;
 		newTrail.endWidth = 0;// * child.transform.lossyScale.x/2;
+		newTrail.materials = this.GetComponent<TrailRenderer>().materials;
 		newTrail.materials[0].color = FractalManager.Instance.GetDepthColor(child);
 
 		MaterialFadeInDistance newFade = child.gameObject.AddComponent<MaterialFadeInDistance>();
@@ -149,10 +150,10 @@ public class FractalNode : MonoBehaviour
 		int deadBabies = 0;
 		for (int i = 0; i < childCount; i++)
 		{
-			if (!FractalManager.Instance.ShouldIReproduce(this))
+			if (FractalManager.Instance.ShouldIReproduce(this))
 			{
 				FractalNode child = CreateChild();
-				if (depth < FractalManager.Instance.maxDepth)
+				if (depth < FractalManager.Instance.maxDepth-1)
 				{
 					StartCoroutine(child.CreateChildren());
 					//yield return new WaitForSeconds(childSpawnDelay);
