@@ -17,8 +17,6 @@ public class FractalNode : MonoBehaviour
 	private Vector3 lastPosition;
 	private Vector3 lastScale;
 
-	public bool				debugCos;
-
 	void Awake()
 	{
 		this.children = new List<FractalNode>();
@@ -216,9 +214,7 @@ public class FractalNode : MonoBehaviour
 			{
 				float retractAmount = FractalManager.Instance.childRetractAmount;
 				float retractSpeed = FractalManager.Instance.childRetractSpeed;
-				float offsetFactor = 0.75f * ((1.0f - retractAmount) + retractAmount * Mathf.Cos(2 * Mathf.PI * Time.time * retractSpeed));
-				if (debugCos)
-					Debug.Log(offsetFactor);
+				float offsetFactor = ((1.0f - retractAmount) + retractAmount * Mathf.Cos(2 * Mathf.PI * Time.time * retractSpeed));
 				this.transform.localPosition = offsetFactor * parent.childOffset[index - 1];
 			}
 		}
