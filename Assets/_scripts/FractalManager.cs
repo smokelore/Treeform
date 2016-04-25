@@ -26,7 +26,8 @@ public class FractalManager : Singleton<FractalManager>
 	public AnimationCurve materialFadeCurve;
 	public int materialFadeMaxDist;
 
-	public float childDeathProbability;
+	public AnimationCurve childDeathCurve;
+	public float childDeathProb;
 
 	public bool debugDrawBranches;
 
@@ -45,7 +46,7 @@ public class FractalManager : Singleton<FractalManager>
 
 	public Color GetDepthColor(FractalNode node)
 	{
-		float value = ((float)(node.depth)) / ((float)(maxDepth + 1));
+		float value = ((float)(node.depth)) / ((float)(maxDepth));
 
 		return Color.Lerp(startColor, endColor, value);
 	}
@@ -59,6 +60,9 @@ public class FractalManager : Singleton<FractalManager>
 
 	public bool ShouldIReproduce(FractalNode node)
 	{
-		return (Random.Range(0.0f,1.0f) < childDeathProbability);
+		float deathProb = childDeathCurve.Evaluate((float)(node.depth)) / ((float)(maxDepth));
+		bool died = (Random.Range(0.0f, childDeathProb) <= deathProb);
+
+		return !died;
 	}
 }
