@@ -26,6 +26,8 @@ public class FractalManager : Singleton<FractalManager>
 	public AnimationCurve materialFadeCurve;
 	public int materialFadeMaxDist;
 
+	public float childDeathProbability;
+
 	public bool debugDrawBranches;
 
 	void Start () 
@@ -52,6 +54,11 @@ public class FractalManager : Singleton<FractalManager>
 	{
 		float rand = Random.Range(0.0f, 1.0f);
 
-		return childOffsetError * childOffsetErrorCurve.Evaluate(rand);
+		return (childOffsetError * childOffsetErrorCurve.Evaluate(rand));
+	}
+
+	public bool ShouldIReproduce(FractalNode node)
+	{
+		return (Random.Range(0.0f,1.0f) < childDeathProbability);
 	}
 }
