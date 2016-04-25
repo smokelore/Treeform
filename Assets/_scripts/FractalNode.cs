@@ -216,7 +216,7 @@ public class FractalNode : MonoBehaviour
 		{
 			gameObject.GetComponent<TrailRenderer>().startWidth = FractalManager.Instance.trailDefaultStartWidth;// * transform.lossyScale.x;
 			gameObject.GetComponent<TrailRenderer>().endWidth = FractalManager.Instance.trailDefaultEndWidth;// * transform.lossyScale.x;
-			gameObject.GetComponent<TrailRenderer>().materials[0].color = FractalManager.Instance.GetDepthColor(this);
+			gameObject.GetComponent<TrailRenderer>().materials[0].SetColor("_OutlineColor", FractalManager.Instance.GetDepthColor(this));
 		}
 	}
 }
