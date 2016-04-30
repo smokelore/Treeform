@@ -60,7 +60,7 @@ public class FractalNode : MonoBehaviour
 				go.transform.localScale = Vector3.one * parentNode.childScale[nodeIndex];
 				go.transform.localPosition = parentNode.childOffset[nodeIndex];//new Vector3(parentNode.childOffset[nodeIndex].x * go.transform.localScale.x, parentNode.childOffset[nodeIndex].y * go.transform.localScale.y, parentNode.childOffset[nodeIndex].z * go.transform.localScale.z);
 				component.depth = parentNode.depth + 1;
-				component.index = parentNode.children.Count + 1;
+				component.index = parentNode.children.Count;
 
 				if (bInheritParameters)
 				{
@@ -108,7 +108,7 @@ public class FractalNode : MonoBehaviour
 	{
 		FractalNode child = FractalNode.Create(this, true);
 
-		child.gameObject.name = this.gameObject.name + " > " + child.depth + "." + child.index;
+		child.gameObject.name = child.depth + "." + child.index;
 
 		//child.gameObject.AddComponent<MeshFilter>().mesh = this.gameObject.GetComponent<MeshFilter>().mesh;
 		//child.gameObject.AddComponent<MeshRenderer>().material = this.gameObject.GetComponent<MeshRenderer>().material;
@@ -118,8 +118,6 @@ public class FractalNode : MonoBehaviour
 		newTrail.endWidth = 0;// * child.transform.lossyScale.x/2;
 		newTrail.materials = this.GetComponent<TrailRenderer>().materials;
 		newTrail.materials[0].color = FractalManager.Instance.GetDepthColor(child);
-
-		MaterialFadeInDistance newFade = child.gameObject.AddComponent<MaterialFadeInDistance>();
 
 		return child;
 	}
@@ -144,26 +142,26 @@ public class FractalNode : MonoBehaviour
 		{
 			yield return null;
 		}
-			
-		int deadBabies = 0;
-		for (int i = 0; i < childCount; i++)
-		{
-			if (FractalManager.Instance.ShouldIReproduce(this))
-			{
-				FractalNode child = CreateChild();
-				if (depth < FractalManager.Instance.maxDepth-1)
-				{
-					StartCoroutine(child.CreateChildren());
-					//yield return new WaitForSeconds(childSpawnDelay);
-				}
-			}
-			else
-			{
-				deadBabies++;
-			}
-		}
+		
+        int deadBabies = 0;
+        for (int i = 0; i < childCount; i++)
+        {
+            //if (FractalManager.Instance.ShouldIReproduce(this))
+            //{
+            FractalNode child = CreateChild();
+            if (child.depth < FractalManager.Instance.maxDepth)
+            {
+                StartCoroutine(child.CreateChildren());
+                //yield return new WaitForSeconds(childSpawnDelay);
+            }
+            //}
+            //else
+            //{
+            //	deadBabies++;
+            //}
+        }
 
-		childCount -= deadBabies;
+        childCount -= deadBabies;
 	}
 
 	public void DebugDrawBranches()
@@ -187,6 +185,61 @@ public class FractalNode : MonoBehaviour
 			StartCoroutine(child.UpdateChildPositions());
 		}
 	}
+
+    public IEnumerator DeleteChildren()
+    {
+        yield return new WaitForSeconds(FractalManager.Instance.depthSpawnDelay.RandomSample());
+
+        for (int i = children.Count-1; i >= 0; i--)
+        {
+            FractalNode child = children[i];
+
+            yield return StartCoroutine(child.DeleteChildren());
+
+            Destroy(child.gameObject);
+        }
+
+        children.Clear();
+    }
+
+    public IEnumerator GrowTree()
+    {
+        yield return new WaitForSeconds(FractalManager.Instance.depthSpawnDelay.RandomSample());
+
+        if (depth < FractalManager.Instance.maxDepth && children.Count == 0)
+        {
+            StartCoroutine(CreateChildren());
+        }
+        else
+        {
+            for (int i = children.Count-1; i >= 0; i--)
+            {
+                FractalNode child = children[i];
+
+                StartCoroutine(child.GrowTree());
+            }
+        }
+
+    }
+
+    public IEnumerator ShrinkTree()
+    {
+        yield return new WaitForSeconds(FractalManager.Instance.depthSpawnDelay.RandomSample());
+
+        for (int i = children.Count-1; i >= 0; i--)
+        {
+            FractalNode child = children[i];
+
+            if (child.depth == FractalManager.Instance.maxDepth && child.childCount > 0)
+            {
+                StartCoroutine(child.DeleteChildren());
+            }
+            else
+            {
+                yield return StartCoroutine(child.ShrinkTree());
+            }
+        }
+    }
 
 	void Update()
 	{
@@ -215,7 +268,7 @@ public class FractalNode : MonoBehaviour
 				float retractAmount = FractalManager.Instance.childRetractAmount;
 				float retractSpeed = FractalManager.Instance.childRetractSpeed;
 				float offsetFactor = ((1.0f - retractAmount) + retractAmount * Mathf.Cos(2 * Mathf.PI * Time.time * retractSpeed));
-				this.transform.localPosition = offsetFactor * parent.childOffset[index - 1];
+				this.transform.localPosition = offsetFactor * parent.childOffset[index];
 			}
 		}
 
@@ -224,6 +277,8 @@ public class FractalNode : MonoBehaviour
 			gameObject.GetComponent<TrailRenderer>().startWidth = FractalManager.Instance.trailDefaultStartWidth;// * transform.lossyScale.x;
 			gameObject.GetComponent<TrailRenderer>().endWidth = FractalManager.Instance.trailDefaultEndWidth;// * transform.lossyScale.x;
 			gameObject.GetComponent<TrailRenderer>().materials[0].color = FractalManager.Instance.GetDepthColor(this);
+			gameObject.GetComponent<TrailRenderer> ().materials [0].SetColor ("_EmisColor", FractalManager.Instance.GetDepthColor (this));
+			gameObject.GetComponent<TrailRenderer> ().materials [0].SetColor ("_TintColor", FractalManager.Instance.GetDepthColor (this));
 		}
 	}
 }

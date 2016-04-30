@@ -11,29 +11,31 @@ public class FractalManager : Singleton<FractalManager>
 	public FloatRange depthSpawnDelay;
 
 	public Color startColor, endColor;
-	public AnimationCurve debugColorFade;
+	public AnimationCurve colorFadeCurve;
 
 	public float trailDefaultStartWidth;
 	public float trailDefaultEndWidth;
 
-	public float childOffsetError;
-	public AnimationCurve childOffsetErrorCurve;
+	public float 			childOffsetError;
+	public AnimationCurve 	childOffsetErrorCurve;
 
 	public float childRotationSpeed;
 	public float childRetractSpeed;
 	public float childRetractAmount;
 
-	public AnimationCurve materialFadeCurve;
-	public int materialFadeMaxDist;
-
-	public AnimationCurve childDeathCurve;
-	public float childDeathProb;
+	public AnimationCurve 	childDeathCurve;
+	public float 			childDeathProb;
 
 	public bool debugDrawBranches;
 
+    [HideInInspector]
+    public int prevMaxDepth;
+
 	void Start () 
 	{
-		if (maxDepth > -1)
+		prevMaxDepth = maxDepth;
+
+		if (maxDepth > 0)
 		{
 			StartCoroutine(root.CreateChildren());
 		}
@@ -41,12 +43,28 @@ public class FractalManager : Singleton<FractalManager>
 
 	void Update () 
 	{
-	
+        if (prevMaxDepth != maxDepth && maxDepth < 1)
+        {
+            // remove all nodes except root
+            StartCoroutine(root.DeleteChildren());
+        }
+        else if (maxDepth > prevMaxDepth)
+        {
+		    // add depths of nodes
+            StartCoroutine(root.GrowTree());
+        }
+        else if (maxDepth < prevMaxDepth)
+        {
+            // remove depths of nodes
+            StartCoroutine(root.ShrinkTree());
+        }
+
+        prevMaxDepth = maxDepth;                
 	}
 
 	public Color GetDepthColor(FractalNode node)
 	{
-		float value = ((float)(node.depth)) / ((float)(maxDepth));
+		float value = colorFadeCurve.Evaluate(((float)(node.depth)) / ((float)(maxDepth)));
 
 		return Color.Lerp(startColor, endColor, value);
 	}

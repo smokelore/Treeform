@@ -26,9 +26,6 @@ public class MaterialFadeInDistance : MonoBehaviour
 	
 	void Update () 
 	{
-		fadeCurve = FractalManager.Instance.materialFadeCurve;
-		maxDist = FractalManager.Instance.materialFadeMaxDist;
-
 		if (materials.Count < 1)
 		{
 			Initialize();
