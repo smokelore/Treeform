@@ -28,11 +28,15 @@ public class FractalManager : Singleton<FractalManager>
 
 	public bool debugDrawBranches;
 
+    public EventMicBeat micBeat;
+
     [HideInInspector]
     public int prevMaxDepth;
 
 	void Start () 
 	{
+        micBeat = this.gameObject.GetComponent<EventMicBeat>();
+
 		prevMaxDepth = maxDepth;
 
 		if (maxDepth > 0)
@@ -59,7 +63,12 @@ public class FractalManager : Singleton<FractalManager>
             StartCoroutine(root.ShrinkTree());
         }
 
-        prevMaxDepth = maxDepth;                
+        prevMaxDepth = maxDepth;  
+
+        if (micBeat != null && micBeat.IsReady())
+        {
+            Debug.Log(micBeat.GetBeatPeriod());
+        }
 	}
 
 	public Color GetDepthColor(FractalNode node)
