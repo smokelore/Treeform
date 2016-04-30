@@ -86,64 +86,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &121806409
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 121806411}
-  - 114: {fileID: 121806410}
-  - 114: {fileID: 121806412}
-  m_Layer: 0
-  m_Name: GalaxyBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &121806410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 121806409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce733051a7b194281b561740f71a43e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  galaxyBox: {fileID: 2100000, guid: 36c6720f6cf8741ccb77f28a756fa0a0, type: 2}
---- !u!4 &121806411
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 121806409}
-  m_LocalRotation: {x: 0.20500964, y: -0.56676275, z: 0.14818752, w: 0.78408647}
-  m_LocalPosition: {x: 135.24208, y: 81.3, z: -31.459213}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
---- !u!114 &121806412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 121806409}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93e03eee48cb34485a472001643eb3d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frequency1: 0.1
-  frequency2: 0.1
-  maxAngle1: 360
-  maxAngle2: 360
-  axis1: {x: 1, y: 0, z: 0}
-  axis2: {x: 0, y: 1, z: 0}
 --- !u!1 &637270792
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,6 +379,64 @@ MonoBehaviour:
   childDeathProb: 0.2
   debugDrawBranches: 0
   prevMaxDepth: 0
+--- !u!1 &1168805380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1168805383}
+  - 114: {fileID: 1168805382}
+  - 114: {fileID: 1168805381}
+  m_Layer: 0
+  m_Name: GalaxyBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1168805381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1168805380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e03eee48cb34485a472001643eb3d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency1: 0.05
+  frequency2: 0.05
+  maxAngle1: 360
+  maxAngle2: 360
+  axis1: {x: 1, y: 0, z: 0}
+  axis2: {x: 0, y: 1, z: 0}
+--- !u!114 &1168805382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1168805380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce733051a7b194281b561740f71a43e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  galaxyBox: {fileID: 2100000, guid: 36c6720f6cf8741ccb77f28a756fa0a0, type: 2}
+--- !u!4 &1168805383
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1168805380}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
 --- !u!1 &1543093296
 GameObject:
   m_ObjectHideFlags: 0
